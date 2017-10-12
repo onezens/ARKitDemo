@@ -94,15 +94,16 @@ class Line {
         
         
     }
-    
+    /** 开始画线 */
     func update(endVector: SCNVector3) {
         
         lineNode?.removeFromParentNode()
-        
+        //画线并且添加到sceneview
         lineNode = startVector.drawLine(to: endVector, color: color)
         sceneView.scene.rootNode.addChildNode(lineNode!)
         
         text.string = distanceString(to: endVector)
+        //开始和结束点的中间
         textNode.position = SCNVector3((startVector.x + endVector.x) * 0.5, (startVector.y + endVector.y) * 0.5, (startVector.z + endVector.z) * 0.5)
         endNode.position = endVector
         if endNode.parent == nil {
@@ -110,12 +111,13 @@ class Line {
         }
     }
     
+    /** 两个点之间的单位字符串 */
     func distanceString(to vector: SCNVector3) -> String {
         
         return String(format: "%.2f %@", arguments: [startVector.distance(to: vector) * unit.factor, unit.name])
     }
 
-    
+    //移除线
     func remove(){
         startNode.removeFromParentNode()
         endNode.removeFromParentNode()
